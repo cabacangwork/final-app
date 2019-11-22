@@ -23,7 +23,8 @@ export const initialData = {
                 "Heat 1/4 cup vegetable oil in a large skillet. Remove the beef slices from the marinade, shaking to remove any excess liquid. Fry the beef slices in batches in the hot oil until they start to firm, and are reddish-pink and juicy in the center, 2 to 4 minutes per side. Remove the beef slices from the skillet and set aside on a serving platter.",
                 "Heat the olive oil in a small skillet over medium heat. Cook and stir the onion and garlic in the hot oil until the onion is golden brown, 5 to 7 minutes; pour over the beef slices."
             ],
-            date: 'August 9, 2019 4:29 PM'
+            date: 'August 9, 2019 4:29 PM',
+            lastUpdate: 'October 5, 2019 11:32 PM'
         },
         {
             id: 2,
@@ -42,7 +43,8 @@ export const initialData = {
                 "Heat Golden Fiesta Oil in a pan, then fry pork chops until golden brown and crispy, about 5 minutes.",
                 "Serve with Papa Banana Catsup. "
             ],
-            date: 'September 21, 2019 11:10 AM'
+            date: 'September 21, 2019 11:10 AM',
+            lastUpdate: 'October 22, 2019 4:11 PM'
         },
         {
             id: 3,
@@ -60,7 +62,8 @@ export const initialData = {
                 "In a large shallow dish, combine 2-2/3 cups flour, 2 tablespoons garlic salt, 1 tablespoon paprika, 2-1/2 teaspoons pepper and 2-1/2 teaspoons poultry seasoning. In another shallow dish, beat eggs and 1-1/2 cups water; add 1 teaspoon salt and the remaining 1-1/3 cup flour and 1/2 teaspoon pepper. Dip chicken in egg mixture, then place in the flour mixture, a few pieces at a time. Turn to coat.",
                 "In a deep-fat fryer, heat oil to 375°. Working in batches, fry chicken, several pieces at a time, until golden brown and a thermometer inserted into chicken reads 165°, about 7-8 minutes on each side. Drain on paper towels."
             ],
-            date: 'October 10, 2019 2:51 PM'
+            date: 'October 10, 2019 2:51 PM',
+            lastUpdate: 'October 22, 2019 6:22 AM'
         },
         {
             id: 4,
@@ -92,7 +95,8 @@ export const initialData = {
                 "Put-in the spinach, turn off the heat, and cover the pot. Let the spinach cook using the remaining heat in the pot. ",
                 "Serve hot. Share and enjoy! "
             ],
-            date: 'November 2, 2019 8:28 AM'
+            date: 'November 2, 2019 8:28 AM',
+            lastUpdate: 'November 22, 2019 3:22 AM'
         },
         {
             id: 5,
@@ -117,7 +121,8 @@ export const initialData = {
                 "Add some ground black pepper and salt as needed.",
                 "Serve hot. Share and Enjoy!"
             ],
-            date: 'November 10, 2019 6:15 PM'
+            date: 'November 10, 2019 6:15 PM',
+            lastUpdate: 'November 12, 2019 8:33 AM'
         },
         {
             id: 6,
@@ -142,7 +147,8 @@ export const initialData = {
                 "Serve with sinamak or Asian dipping sauce.",
                 "Share and enjoy!"
             ],
-            date: 'November 11, 2019 6:15 AM'
+            date: 'November 11, 2019 6:15 AM',
+            lastUpdate: 'November 12, 2019 3:33 AM'
         },
         {
             id: 7,
@@ -184,7 +190,8 @@ export const initialData = {
                 " Transfer to a serving plate. Serve.",
                 "Share and enjoy!"
             ],
-            date: 'November 12, 2019 8:29 AM'
+            date: 'November 12, 2019 8:29 AM',
+            lastUpdate: 'November 3, 2019 8:11 AM'
         },
         {
             id: 8,
@@ -205,7 +212,8 @@ export const initialData = {
                 "Place another layer of graham crackers, cream mixture and slices of mango; repeat the process one more time, ending with slices of mango.",
                 "Refrigerate the mango float overnight to set completely before serving."
             ],
-            date: 'November 13, 2019 9:33 PM'
+            date: 'November 13, 2019 9:33 PM',
+            lastUpdate: 'November 22, 2019 8:33 AM'
         },
         {
             id: 9,
@@ -241,7 +249,8 @@ export const initialData = {
                 "Season with salt and pepper to taste.",
                 "Add bell peppers and cook for about 1 minute or until tender yet crisp. Serve hot."
             ],
-            date: 'November 15, 2019 4:42 PM'
+            date: 'November 15, 2019 4:42 PM',
+            lastUpdate: 'November 16, 2019 8:33 AM'
         }
     ]
 }

@@ -8,7 +8,7 @@ export const recipeReducer = (state, action) => {
         case 'REMOVE_RECIPE':
             return {
                 ...state,
-                recipe: state.recipe.filter(utang => utang.id !== action.payload)
+                recipe: state.recipe.filter(recipe => recipe.id != action.payload)
             }
         case 'FILTER':
             const newList = action.payload !== 'all' ? state.recipe.filter(filter => filter.dish === action.payload) : [];
@@ -20,12 +20,14 @@ export const recipeReducer = (state, action) => {
             const newState = {
                 ...state,
                 recipe: state.recipe.map(recipe =>
-                    recipe.id === action.payload.newId ? { 
+                    recipe.id == action.payload.id ? { 
                         ...recipe, 
                         title: action.payload.newTitle,
                         description: action.payload.newDescription,
+                        dish: action.payload.newDish,
                         ingredients: action.payload.newIngredients,
-                        dish: action.payload.newDish
+                        procedures: action.payload.newProcedures,
+                        lastUpdate: action.payload.editDate
                     } 
                     : recipe
                 )

@@ -17,10 +17,6 @@ class AddRecipe extends Component{
         }
     }
 
-    handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
-
     handleSubmit = (e) => {
         e.preventDefault();
         const { dispatch } = this.context;
@@ -34,7 +30,8 @@ class AddRecipe extends Component{
             ingredients: this.state.ingredients,
             procedures: this.state.procedures,
             dish: this.state.dish,
-            date: moment().format('LLL')
+            date: moment().format('LLL'),
+            lastUpdate: moment().format('LLL')
         }
         dispatch({
             type: 'ADD_RECIPE',
@@ -49,8 +46,8 @@ class AddRecipe extends Component{
         })
         alert('Success Adding Recipe');
         setTimeout(() => {
-            history.push(`/recipe/${id}`);
-        }, 1000)
+            history.push(`/recipes`);
+        }, 500)
         
     }
 
@@ -72,7 +69,7 @@ class AddRecipe extends Component{
                         <textarea className="form-control" rows="3" type="text" name="description" value={description} onChange={this.handleChange} required />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="dishType">Dish Type</label>
+                        <label>Dish Type</label>
                         <select className="form-control" id="dishType" value={dish} onChange={(e) => this.onOption(e)}>
                             <option value="not-specified">Not Specified</option>
                             <option value="chicken">Chicken</option>
@@ -119,6 +116,10 @@ class AddRecipe extends Component{
             </div>
         )
 
+    }
+
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     onOption = (e) => {

@@ -9,8 +9,9 @@ import logo from '../../public/styles/images/logo-white.png';
 import Home from './Home';
 import AddRecipe from './AddRecipe';
 import RecipeList from './RecipeList';
-import RecipeItem from './RecipeItem';
+import RecipeDetails from './RecipeDetails';
 import PageNotFound from './PageNotFound';
+import EditRecipe from './EditRecipe';
 
 const Navigation = () => {
 
@@ -22,14 +23,15 @@ const Navigation = () => {
                 </NavLink>
                 <div className="form-inline">
                     <NavLink className="nav-link" to="/addrecipe">Add Recipe</NavLink>
-                    <NavLink className="nav-link" to="/recipe">Recipe List</NavLink>
+                    <NavLink className="nav-link" to="/recipes">Recipe List</NavLink>
                 </div>
             </nav>
             <Switch>
                 <Route exact path="/"><Home/></Route>
                 <Route exact path="/addrecipe" component={AddRecipe}></Route>
-                <Route exact path="/recipe"><RecipeList/></Route>
-                <Route exact path="/recipe/:id" component={RecipeItem}/>
+                <Route exact path="/recipes" component={RecipeList}></Route>
+                <Route exact path="/recipe/:id" component={RecipeDetails}/>
+                <Route exact path="/recipe/update/:id" component={EditRecipe}/>
                 <Route  component={PageNotFound} />
             </Switch>
         </Router>

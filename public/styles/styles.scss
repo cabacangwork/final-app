@@ -174,11 +174,6 @@ nav {
     .label-caption {
         color: lightgray
     }
-    .form-group {
-        padding: 1rem 0;
-        border-bottom: 1px solid #b7aaaa;
-        margin-bottom: 0;
-    }
     .multiple {
         ul {
             display: flex;
@@ -213,5 +208,27 @@ nav {
 }
 
 .form-add.card.container.edit {
-    max-width: 90%;
+    width: 90%;
+    max-width: 1500px;
+    background: #fff;
+    border: none;
+    margin-top: 0;
+    .card-title, label {
+        color: #000;
+    }
+    .form-control {
+        border: 1px solid #7f8082;
+    }
+    h2 {
+        margin-top: 20px;
+    }
+    .loader {
+        margin-top: 50px;
+        text-align: center;
+    }
+}
+
+.dates {
+    display: flex;
+    justify-content: space-between;
 }

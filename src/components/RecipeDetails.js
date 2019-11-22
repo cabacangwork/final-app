@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import { RecipeContext } from '../contexts/RecipeContext';
 import { Link } from 'react-router-dom'
-import EditRecipe from './EditRecipe';
 
 class RecipeDetails extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            edit: false
-        }
-    }
-
     static contextType = RecipeContext;
     
+    componentDidUpdate() {
+        const { history } = this.props;
+        history.push('/recipes');
+    }
+
     onDelete = (e) => {
         e.preventDefault();
         const { dispatch } = this.context;
-        const id = this.props.recipe.id;
+        const id = this.props.match.params.id;
         let decision = confirm('Confirm Delete?');
         if (decision) {
             dispatch({
@@ -27,66 +24,56 @@ class RecipeDetails extends Component {
         }
     }
 
-    onEdit = () => {
-        setTimeout(() => {
-            this.setState({edit: true});
-        }, 500)
-    }
-
-    onCancel = () => {
-        setTimeout(() => {
-            this.setState({edit:false})
-        }, 500)
-    }
-
     render() {
-        const { recipe } = this.props;
+
+        const { list } = this.context;
+        const route_id = this.props.match.params.id;
+
         return (
-            <div className={"recipe container" + (this.state.edit ? ' hide' : '')}>
-                <div className="details">
-                    <h2>{recipe.title}</h2>
-                    <p>{recipe.description}</p>
-                    <h5>Dish Type:</h5>
-                    <p className="dish-type">{recipe.dish}</p>
-                    <div className="ingredients-info">
-                        <h5>Ingredients:</h5>
-                        <ul>
-                            { recipe.ingredients.map((ing, index) => (
-                                <li key={index}>{ing}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="procedures-info">
-                        <h5>Procedures:</h5>
-                        <ol>
-                            { recipe.procedures.map((pro, index) => (
-                                <li key={index}>{pro}</li>
-                            ))}
-                        </ol>
-                    </div>
-                    <hr/>
-                    <footer className="blockquote-footer"><cite title="Source Title">Recipe Added on: {recipe.date}</cite></footer>
-                    <div className="footer-buttons">
-                        <div className="left"><Link to="/recipe">&lt; Recipe List</Link></div>
-                        <div className="middle">
-                            <button type="button" className="btn btn-info" onClick={this.onEdit}>Edit</button>
-                            <button type="button" className="btn btn-info" onClick={this.onDelete}>Delete</button>
-                        </div>
-                        <div className="right"><Link to="/addrecipe">Add Recipe &gt;	</Link></div>                
-                    </div>
-                </div>
-                <div className="form-edit">
-                    {this.state.edit?
-                        <EditRecipe recipe={recipe}/>:
+            <div className="recipe container">
+                { list.recipe.map((recipe) => (
+                    recipe.id == route_id ?
+                        <div key={recipe.id} className="details">
+                            <h2>{recipe.title}</h2>
+                            <p>{recipe.description}</p>
+                            <h5>Dish Type:</h5>
+                            <p className="dish-type">{recipe.dish}</p>
+                            <div className="ingredients-info">
+                                <h5>Ingredients:</h5>
+                                <ul>
+                                    { recipe.ingredients.map((ing, index) => (
+                                        <li key={index}>{ing}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="procedures-info">
+                                <h5>Procedures:</h5>
+                                <ol>
+                                    { recipe.procedures.map((pro, index) => (
+                                        <li key={index}>{pro}</li>
+                                    ))}
+                                </ol>
+                            </div>
+                            <hr/>
+                            <div className="dates">
+                                <footer className="blockquote-footer">
+                                    <cite title="Source Title">Recipe Added on: {recipe.date}</cite>
+                                </footer>
+                                <footer className="blockquote-footer">
+                                    <cite title="Source Title">Last Update on: {recipe.lastUpdate}</cite>
+                                </footer>
+                            </div>
+                            <div className="footer-buttons">
+                                <div className="left"><Link to="/recipes">&lt; Recipe List</Link></div>
+                                <div className="middle">
+                                    <Link className="btn btn-info edit" to={`/recipe/update/${recipe.id}`}>Edit</Link>
+                                    <button type="button" className="btn btn-info" onClick={this.onDelete}>Delete</button>
+                                </div>
+                                <div className="right"><Link to="/addrecipe">Add Recipe &gt;	</Link></div>                
+                            </div>
+                        </div>:
                         null
-                    }
-                </div>
-                <div className="cancel-button">
-                    {this.state.edit?
-                        <button type="button" className="btn btn-danger btn-lg" onClick={this.onCancel}>Cancel</button>:
-                        null
-                    }
-                </div>
+                    ))}
             </div>
         )
     }

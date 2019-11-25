@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import RecipeContextProvider from './contexts/RecipeContext';
 import Navigation from './components/Navigation';
 import Home from './components/Home';

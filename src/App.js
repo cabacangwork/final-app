@@ -7,6 +7,7 @@ import RecipeList from './components/RecipeList';
 import RecipeDetails from './components/RecipeDetails';
 import PageNotFound from './components/PageNotFound';
 import EditRecipe from './components/EditRecipe';
+import Footer from './components/Footer';
 import {
   BrowserRouter as Router,
   Switch,
@@ -28,6 +29,7 @@ class App extends Component{
                   <Route  component={PageNotFound} />
               </Switch>
             </Router>
+            <Footer/>
         </RecipeContextProvider>
     )
   }

@@ -4,8 +4,8 @@ const Home = () => {
 
     return (
       <div className="container home">
-        <h2 className="title">Welcome<br/>to your Collection<br/>of Recipes</h2>
-      </div>  
+        <h2 className="banner title">The<br/>Recipe App</h2>
+      </div> 
     );
 
 }

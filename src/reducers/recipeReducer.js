@@ -20,7 +20,7 @@ export const recipeReducer = (state, action) => {
             const newState = {
                 ...state,
                 recipe: state.recipe.map(recipe =>
-                    recipe.id == action.payload.id ? { 
+                    recipe.id === action.payload.id ? { 
                         ...recipe, 
                         title: action.payload.newTitle,
                         description: action.payload.newDescription,

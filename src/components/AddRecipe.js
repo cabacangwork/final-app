@@ -6,15 +6,12 @@ class AddRecipe extends Component{
 
     static contextType = RecipeContext;
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            title: '',
-            description: '',
-            ingredients: [''],
-            procedures: [''],
-            dish: 'not-specified'
-        }
+    state = {
+        title: '',
+        description: '',
+        ingredients: [''],
+        procedures: [''],
+        dish: 'not-specified'
     }
 
     handleSubmit = (e) => {
@@ -45,10 +42,7 @@ class AddRecipe extends Component{
             dish: 'not-specified'
         })
         alert('Success Adding Recipe');
-        setTimeout(() => {
-            history.push(`/recipes`);
-        }, 500)
-        
+        history.push(`/recipes`);
     }
 
 

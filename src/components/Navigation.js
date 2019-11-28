@@ -7,7 +7,7 @@ const Navigation = () => {
     return (
         <nav className="navbar">
             <NavLink className="navbar-brand" exact to="/">
-                <img src={logo} width="43" height="45" />
+                <img src={require('../../public/styles/images/logo-white.png')} width="43" height="45" />
             </NavLink>
             <div className="form-inline">
                 <NavLink className="nav-link" to="/addrecipe">Add Recipe</NavLink>

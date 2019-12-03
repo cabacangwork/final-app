@@ -78,16 +78,14 @@ class AddRecipe extends Component{
                     <div className="form-group">
                         <label>Ingredients:</label>
                         {ingredients.map((ingredient, index) => {
-                            return (
-                                <div key={index} className="add-tab">
-                                    <div className="add-input">
-                                        <input className="form-control" value={ingredient} onChange={(e) => this.onChangeIngredient(e, index)} required/>
-                                    </div>
-                                    <div>
-                                        <button className="btn btn-remove" onClick={(e) => this.removeIngredient(e, index)}>Remove</button>
-                                    </div>
+                            <div key={index} className="add-tab">
+                                <div className="add-input">
+                                    <input className="form-control" value={ingredient} onChange={(e) => this.onChangeIngredient(e, index)} required/>
                                 </div>
-                            );
+                                <div>
+                                    <button className="btn btn-remove" onClick={(e) => this.removeIngredient(e, index)}>Remove</button>
+                                </div>
+                            </div>
                         })}
                         <br/><button onClick={this.addIngredient} className="btn btn-secondary btn-add">Add Ingredient</button>
                     </div>

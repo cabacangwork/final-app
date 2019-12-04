@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { RecipeContext } from '../contexts/RecipeContext';
 import moment from 'moment';
 
 class AddRecipe extends Component{
-
-    static contextType = RecipeContext;
 
     state = {
         title: '',
@@ -14,37 +11,30 @@ class AddRecipe extends Component{
         dish: 'not-specified'
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        const { dispatch } = this.context;
         const { history } = this.props;
-        const id = Date.now();
-
         const recipe = {
-            id,
             title: this.state.title,
             description: this.state.description,
             ingredients: this.state.ingredients,
             procedures: this.state.procedures,
             dish: this.state.dish,
-            date: moment().format('LLL'),
-            lastUpdate: moment().format('LLL')
+            dateCreated: moment().format('LLL'),
+            editDate: moment().format('LLL')
         }
-        dispatch({
-            type: 'ADD_RECIPE',
-            payload: recipe
-        });
-        this.setState({
-            title: '',
-            description: '',
-            ingredients: [''],
-            procedures: [''],
-            dish: 'not-specified'
-        })
-        alert('Success Adding Recipe');
-        history.push(`/recipes`);
+        const response = await fetch('http://localhost:5000/recipes/add', {
+            method: 'post',
+            body:JSON.stringify(recipe), 
+            headers: {'Content-Type': 'application/json'}}
+        );
+        const json = await response.json();
+        const clearInput = await (  
+            this.setState({title:'', description:'', ingredients:[''], procedures:[''], dish:'all'})
+        );
+        alert(json.msg)
+        history.push('/recipes/list');
     }
-
 
     render() { 
 
@@ -77,7 +67,7 @@ class AddRecipe extends Component{
                     </div>
                     <div className="form-group">
                         <label>Ingredients:</label>
-                        {ingredients.map((ingredient, index) => {
+                        {ingredients.map((ingredient, index) => 
                             <div key={index} className="add-tab">
                                 <div className="add-input">
                                     <input className="form-control" value={ingredient} onChange={(e) => this.onChangeIngredient(e, index)} required/>
@@ -86,12 +76,12 @@ class AddRecipe extends Component{
                                     <button className="btn btn-remove" onClick={(e) => this.removeIngredient(e, index)}>Remove</button>
                                 </div>
                             </div>
-                        })}
+                        )}
                         <br/><button onClick={this.addIngredient} className="btn btn-secondary btn-add">Add Ingredient</button>
                     </div>
                     <div className="form-group">
                         <label>Procedure:</label>
-                        {procedures.map((procedure, index) => (
+                        {procedures.map((procedure, index) => 
                             <div key={index} className="add-tab">
                                 <div className="add-input">
                                     <textarea className="form-control" rows="2" type="text" value={procedure} onChange={(e) => this.onChangeProcedure(e, index)} required/>
@@ -100,7 +90,7 @@ class AddRecipe extends Component{
                                     <button className="btn btn-remove" onClick={(e) => this.removeProcedure(e, index)}>Remove</button>
                                 </div>
                             </div>
-                        ))}
+                        )}
                         <br/><button onClick={this.addProcedure} className="btn btn-secondary btn-add">Add Procedure</button>
                     </div>
                     <button type="submit" className="btn btn-primary btn-lg">Submit</button>

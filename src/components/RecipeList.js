@@ -1,78 +1,73 @@
-import React, { useContext, useState } from 'react';
-import { RecipeContext } from '../contexts/RecipeContext';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-function RecipeList() {
+class RecipeList extends Component {
 
-    const { list, dispatch } = useContext(RecipeContext);
-    const [filter, setFilter] = useState('all');
-
-    return (
-        <div className="container recipe-list">
-            <div className="header-part">
-                <h2>Recipe Lists</h2>
-                <div className="select-container">
-                    <select className="form-control" id="filter" value={filter} onChange={(e) => onFilter(e.target.value)}>
-                        <option value="all">Show all</option>
-                        <option value="chicken">Chicken</option>
-                        <option value="beef">Beef</option>
-                        <option value="pork">Pork</option>
-                        <option value="seafood">Seafood</option>
-                        <option value="vegetable">Vegetable</option>
-                        <option value="pasta">Pasta</option>
-                        <option value="desert">Desert</option>
-                    </select>
-                </div>
-            </div>
-            
-            {renderList()}
-
-        </div>
-    )
-
-    function onFilter(filterVal) {
-        setFilter(filterVal);
-        dispatch({
-            type: 'FILTER',
-            payload: filterVal
-        });
+    state = {
+        filter: 'all',
+        list: [''],
+        load: true
     }
 
-    function renderList() {
-        if (list.recipe.length < 1) 
-            return (
-                <div className="empty-list">
-                    <h2>-- No Recipe in the List --</h2>
-                </div>
-            );
-        if(filter === 'all') 
-            return (
-                <ul className="list-group">
-                    {list.recipe.map((recipe) => (
-                        <li className="list-group-item list-group-item-secondary" key={recipe.id}>
-                            <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
-                        </li>
-                    ))}
-                </ul>
-            );
-        if (list.filteredRecipes < 1 ) 
-            return (
-                <div className="empty-list">
-                    <h2>-- No Recipe Found --</h2>
-                </div>
-            );
+    componentDidMount() {
+        fetch("http://localhost:5000/recipes/recipe-list")
+        .then(res => res.json())
+        .then(list => {
+            this.setState({ list, load: false });
+        })
+        .catch(err => console.log(err));
+    }
+
+    render() {
+
+        const { filter, list, load } = this.state
+
         return (
-            <ul className="list-group">
-                {list.filteredRecipes.map((filter) => (
-                    <li className="list-group-item list-group-item-secondary" key={filter.id}>
-                        <Link to={`/recipe/${filter.id}`}>{filter.title}</Link>
-                    </li>
-                ))}
-            </ul>
-        );
+            <div className="container recipe-list">
+                <div className="header-part">
+                    <h2>Recipe Lists</h2>
+                    <div className="select-container">
+                        <select className="form-control" id="filter" value={filter} onChange={(e) => this.onFilter(e.target.value)}>
+                            <option value="all">Show all</option>
+                            <option value="chicken">Chicken</option>
+                            <option value="beef">Beef</option>
+                            <option value="pork">Pork</option>
+                            <option value="seafood">Seafood</option>
+                            <option value="vegetable">Vegetable</option>
+                            <option value="pasta">Pasta</option>
+                            <option value="desert">Desert</option>
+                        </select>
+                    </div>
+                </div>
+                <ul className="list-group">
+                    {load ? <span className="loading">Loading...</span> : 
+                        ( 
+                            list.length < 1 ?
+                                <h3 className="no-data">-- No Data in List --</h3>
+                                :
+                                list.map((recipe) => 
+                                    <li className="list-group-item list-group-item-secondary title-link" key={recipe._id}>
+                                        <Link to={`/recipes/view/${recipe._id}`}>{recipe.title}</Link>
+                                    </li>
+                                )
+                        )
+                    }
+                </ul>
+            </div>
+        )
+    }
+    
+    onFilter = (e) => {
+        this.setState({ filter: e });
+        this.setState({ load: true });
+        fetch("http://localhost:5000/recipes/list/?filter=" + e)
+            .then(res => res.json())
+            .then(list => {
+                this.setState({ list, load: false });
+            })
+            .catch(err => console.log(err));
     }
 }
-
 
 
 export default RecipeList;

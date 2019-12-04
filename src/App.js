@@ -22,11 +22,11 @@ class App extends Component{
               <Navigation/>
               <Switch>
                   <Route exact path="/"><Home/></Route>
-                  <Route exact path="/addrecipe" component={AddRecipe}></Route>
-                  <Route exact path="/recipes" component={RecipeList}></Route>
-                  <Route exact path="/recipe/:id" component={RecipeDetails}/>
-                  <Route exact path="/recipe/update/:id" component={EditRecipe}/>
-                  <Route  component={PageNotFound} />
+                  <Route exact path="/recipes/add" component={AddRecipe}/>
+                  <Route exact path="/recipes/list" component={RecipeList}/>
+                  <Route exact path="/recipes/view/:id" component={RecipeDetails}/>
+                  <Route exact path="/recipes/update/:id" component={EditRecipe}/>
+                  <Route component={PageNotFound} />
               </Switch>
             </Router>
             <Footer/>

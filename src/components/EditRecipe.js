@@ -18,26 +18,28 @@ class EditRecipe extends Component{
     }
 
     componentDidMount() {
-        const { list } = this.context;
-        const { match } = this.props;
-        const route_id = +match.params.id;
-        const findRecipe = list.recipe.find(find => find.id === route_id)
-        if(findRecipe) {
-            this.setState({
-                title:  findRecipe.title,
-                description: findRecipe.description,
-                dish: findRecipe.dish,
-                ingredients: findRecipe.ingredients,
-                procedures: findRecipe.procedures
-            })
-        }
-        else {
-            this.setState ({notFound: true})
-            console.log(this.state.notFound)
-        }
+        fetch('http://localhost:5000/recipes/view/'+this.props.match.params.id)
+        .then(res => res.json())
+        .then(recipeInfo => {
+            if(recipeInfo.error === true) {
+                this.setState({notFound: true, loading: false})
+            }
+            else {
+                this.setState({
+                    title: recipeInfo.title, 
+                    description: recipeInfo.description, 
+                    ingredients: recipeInfo.ingredients,
+                    procedures: recipeInfo.procedures,
+                    dish: recipeInfo.dish,
+                    loading: false
+                })
+            }
+        })
+        .catch(err => console.log(err));
     }
 
     render() { 
+
         const { match } = this.props;
         const route_id = match.params.id;
         const { title, description, dish, ingredients, procedures, notFound } = this.state
@@ -46,7 +48,7 @@ class EditRecipe extends Component{
             <div>
                 {notFound?  <PageNotFound/> :
                     <div className="form-add card container edit">
-                        <Link to={`/recipe/${route_id}`} className="back-link">&lt; Back to Recipe Details</Link>
+                        <Link to={`/recipes/view/${route_id}`} className="back-link">&lt; Back to Recipe Details</Link>
                         <h2 className="card-title">Edit Recipe</h2>
                         <div className="edit-form">
                             <form onSubmit={this.handleSubmit}>
@@ -160,25 +162,22 @@ class EditRecipe extends Component{
     }
     // End Procedures Input
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        const { dispatch } = this.context;
-
+        const { title, description, dish, ingredients, procedures } = this.state;
+        
         const recipeUpdate = {
-            id: +this.props.match.params.id,
-            newTitle: this.state.title,
-            newDescription: this.state.description,
-            newDish: this.state.dish,
-            newIngredients: this.state.ingredients,
-            newProcedures: this.state.procedures,
+            title, description, dish, ingredients, procedures,
             editDate: moment().format('LLL')
         }
-        dispatch({
-            type: 'EDIT_DETAILS',
-            payload: recipeUpdate
-        });
-        alert('Success Editing Recipe');
-        this.props.history.push(`/recipe/${this.props.match.params.id}`);
+        const response = await fetch('http://localhost:5000/recipes/update/'+this.props.match.params.id, {
+            method: 'post',
+            body:JSON.stringify(recipeUpdate), 
+            headers: {'Content-Type': 'application/json'}}
+        );
+        const json = await response.json();       
+        alert(json.msg);
+        this.props.history.push(`/recipes/view/${this.props.match.params.id}`);
     }
 }
 

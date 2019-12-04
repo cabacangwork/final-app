@@ -10,8 +10,8 @@ const Navigation = () => {
                 <img src={require('../../public/styles/images/logo-white.png')} width="43" height="45" />
             </NavLink>
             <div className="form-inline">
-                <NavLink className="nav-link" to="/addrecipe">Add Recipe</NavLink>
-                <NavLink className="nav-link" to="/recipes">Recipe List</NavLink>
+                <NavLink className="nav-link" to="/recipes/add">Add Recipe</NavLink>
+                <NavLink className="nav-link" to="/recipes/list">Recipe List</NavLink>
             </div>
         </nav>
     )

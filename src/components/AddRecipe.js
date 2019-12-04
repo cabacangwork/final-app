@@ -77,7 +77,7 @@ class AddRecipe extends Component{
                     </div>
                     <div className="form-group">
                         <label>Ingredients:</label>
-                        {ingredients.map((ingredient, index) => {
+                        {ingredients.map((ingredient, index) => 
                             <div key={index} className="add-tab">
                                 <div className="add-input">
                                     <input className="form-control" value={ingredient} onChange={(e) => this.onChangeIngredient(e, index)} required/>
@@ -86,12 +86,12 @@ class AddRecipe extends Component{
                                     <button className="btn btn-remove" onClick={(e) => this.removeIngredient(e, index)}>Remove</button>
                                 </div>
                             </div>
-                        })}
+                        )}
                         <br/><button onClick={this.addIngredient} className="btn btn-secondary btn-add">Add Ingredient</button>
                     </div>
                     <div className="form-group">
                         <label>Procedure:</label>
-                        {procedures.map((procedure, index) => (
+                        {procedures.map((procedure, index) => 
                             <div key={index} className="add-tab">
                                 <div className="add-input">
                                     <textarea className="form-control" rows="2" type="text" value={procedure} onChange={(e) => this.onChangeProcedure(e, index)} required/>
@@ -100,7 +100,7 @@ class AddRecipe extends Component{
                                     <button className="btn btn-remove" onClick={(e) => this.removeProcedure(e, index)}>Remove</button>
                                 </div>
                             </div>
-                        ))}
+                        )}
                         <br/><button onClick={this.addProcedure} className="btn btn-secondary btn-add">Add Procedure</button>
                     </div>
                     <button type="submit" className="btn btn-primary btn-lg">Submit</button>

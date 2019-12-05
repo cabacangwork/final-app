@@ -9,13 +9,19 @@ class RecipeList extends Component {
         load: true
     }
 
+    abortController = new AbortController;
+
     componentDidMount() {
-        fetch("http://localhost:5000/recipes/recipe-list")
+        fetch("http://localhost:5000/recipes/recipe-list", { signal: this.abortController.signal })
         .then(res => res.json())
         .then(list => {
             this.setState({ list, load: false });
         })
         .catch(err => console.log(err));
+    }
+
+    componentWillUnmount() {
+        this.abortController.abort();
     }
 
     render() {
@@ -60,7 +66,7 @@ class RecipeList extends Component {
     onFilter = (e) => {
         this.setState({ filter: e });
         this.setState({ load: true });
-        fetch("http://localhost:5000/recipes/list/?filter=" + e)
+        fetch("http://localhost:5000/recipes/list/?filter=" + e, { signal: this.abortController.signal })
             .then(res => res.json())
             .then(list => {
                 this.setState({ list, load: false });

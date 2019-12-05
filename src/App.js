@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import RecipeContextProvider from './contexts/RecipeContext';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
 import AddRecipe from './components/AddRecipe';
@@ -17,7 +16,7 @@ import {
 class App extends Component{
   render() { 
     return (
-        <RecipeContextProvider>
+          <div>
             <Router>
               <Navigation/>
               <Switch>
@@ -30,7 +29,7 @@ class App extends Component{
               </Switch>
             </Router>
             <Footer/>
-        </RecipeContextProvider>
+          </div>
     )
   }
 

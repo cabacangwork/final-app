@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from "react-router-dom";
-import { RecipeContext } from '../contexts/RecipeContext';
 import PageNotFound from './PageNotFound';
 
 class EditRecipe extends Component{
-
-    static contextType = RecipeContext;
 
     state = {
         title: '',
@@ -18,8 +15,10 @@ class EditRecipe extends Component{
         loading: true
     }
 
+    abortController = new AbortController;
+
     componentDidMount() {
-        fetch('http://localhost:5000/recipes/view/'+this.props.match.params.id)
+        fetch('http://localhost:5000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
         .then(res => res.json())
         .then(recipeInfo => {
             if(recipeInfo.error === true) {
@@ -37,6 +36,10 @@ class EditRecipe extends Component{
             }
         })
         .catch(err => console.log(err));
+    }
+
+    componentWillUnmount() {
+        this.abortController.abort();
     }
 
     render() { 
@@ -113,6 +116,25 @@ class EditRecipe extends Component{
         )
     }
 
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        this.setState({loading: true})
+        const { title, description, dish, ingredients, procedures } = this.state;
+        
+        const recipeUpdate = {
+            title, description, dish, ingredients, procedures,
+            editDate: moment().format('LLL')
+        }
+        const response = await fetch('http://localhost:5000/recipes/update/'+this.props.match.params.id, {
+            method:  'post',
+            body:JSON.stringify(recipeUpdate), 
+            headers: {'Content-Type': 'application/json'}}
+        );
+        const json = await response.json();    
+        console.log(json.msg);
+        this.props.history.push(`/recipes/view/${this.props.match.params.id}`);
+    }
+
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -164,24 +186,6 @@ class EditRecipe extends Component{
         }
     }
     // End Procedures Input
-
-    handleSubmit = async (e) => {
-        e.preventDefault();
-        const { title, description, dish, ingredients, procedures } = this.state;
-        
-        const recipeUpdate = {
-            title, description, dish, ingredients, procedures,
-            editDate: moment().format('LLL')
-        }
-        const response = await fetch('http://localhost:5000/recipes/update/'+this.props.match.params.id, {
-            method: 'post',
-            body:JSON.stringify(recipeUpdate), 
-            headers: {'Content-Type': 'application/json'}}
-        );
-        const json = await response.json();       
-        alert(json.msg);
-        this.props.history.push(`/recipes/view/${this.props.match.params.id}`);
-    }
 }
 
 export default EditRecipe;

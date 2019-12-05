@@ -10,8 +10,10 @@ class RecipeDetails extends Component {
         notFound: false
     }
 
+    abortController = new AbortController;
+
     componentDidMount() {
-        fetch('http://localhost:5000/recipes/view/'+this.props.match.params.id)
+        fetch('http://localhost:5000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
         .then(res => res.json())
         .then(recipeInfo => {
             if(recipeInfo.error === true) {
@@ -22,6 +24,11 @@ class RecipeDetails extends Component {
             }
         })
         .catch(err => console.log(err));
+    }
+
+    // Abort Fetch Request in leaving page
+    componentWillUnmount() {
+        this.abortController.abort();
     }
 
     render() {
@@ -80,13 +87,13 @@ class RecipeDetails extends Component {
     }
 
     onDelete = async (id) => {
-        const { history } = this.props;
+        this.setState({loading: true})
         const response = await fetch('http://localhost:5000/recipes/'+id, {
             method: 'delete'
         });
         const json = await response.json();
-        alert(json.msg)
-        history.push('/recipes/list');
+        console.log(json.msg)
+        this.props.history.push('/recipes/list');
     }
 
 }

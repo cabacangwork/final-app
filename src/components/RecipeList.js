@@ -17,7 +17,7 @@ class RecipeList extends Component {
         .then(list => {
             this.setState({ list, load: false });
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log('Failed to fetch!'));
     }
 
     componentWillUnmount() {
@@ -71,7 +71,7 @@ class RecipeList extends Component {
             .then(list => {
                 this.setState({ list, load: false });
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log('Failed to filter!'));
     }
 }
 

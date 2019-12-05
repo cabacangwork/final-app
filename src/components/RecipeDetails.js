@@ -18,12 +18,16 @@ class RecipeDetails extends Component {
         .then(recipeInfo => {
             if(recipeInfo.error === true) {
                 this.setState({notFound: true, loading: false})
+                console.log(recipeInfo.msg)
             }
             else {
                 this.setState({recipeInfo, loading: false})
             }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            this.setState({notFound: true, loading: false})
+            console.log('Recipe Not Found')
+        });
     }
 
     // Abort Fetch Request in leaving page
@@ -32,9 +36,7 @@ class RecipeDetails extends Component {
     }
 
     render() {
-
         const { loading, recipeInfo, notFound } = this.state
-
         return (
             <div> 
                 <div className="recipe container">
@@ -88,12 +90,17 @@ class RecipeDetails extends Component {
 
     onDelete = async (id) => {
         this.setState({loading: true})
-        const response = await fetch('http://localhost:5000/recipes/'+id, {
-            method: 'delete'
-        });
-        const json = await response.json();
-        console.log(json.msg)
-        this.props.history.push('/recipes/list');
+        try {
+            const response = await fetch('http://localhost:5000/recipes/'+id, {
+                method: 'delete'
+            });
+            const json = await response.json();
+            console.log(json.msg)
+            this.props.history.push('/recipes/list');
+        }catch {
+            this.setState({loading: false})
+            alert('Delete Unsuccessful!')
+        } 
     }
 
 }

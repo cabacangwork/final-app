@@ -22,19 +22,26 @@ class AddRecipe extends Component{
             procedures: this.state.procedures,
             dish: this.state.dish,
             dateCreated: moment().format('LLL'),
-            editDate: moment().format('LLL')
+            editDate: moment().format('LLL'),
+            recipeId: Date.now()
         }
-        const response = await fetch('http://localhost:5000/recipes/add', {
-            method: 'post',
-            body:JSON.stringify(recipe), 
-            headers: {'Content-Type': 'application/json'}}
-        );
-        const json = await response.json();
-        const clearInput = await (  
-            this.setState({title:'', description:'', ingredients:[''], procedures:[''], dish:'all'})
-        );
-        console.log(json.msg);
-        this.props.history.push('/recipes/list');
+        try {
+            const response = await fetch('http://localhost:5000/recipes/add', {
+                method: 'post',
+                body:JSON.stringify(recipe), 
+                headers: {'Content-Type': 'application/json'}}
+            );
+            const json = await response.json();
+            const clearInput = await (  
+                this.setState({title:'', description:'', ingredients:[''], procedures:[''], dish:'all'})
+            );
+            console.log(json.msg);
+            this.props.history.push('/recipes/list');
+        }
+        catch{
+            this.setState({loading: false})
+            alert("Saving Failed!")
+        }
     }
 
     render() { 
@@ -43,7 +50,7 @@ class AddRecipe extends Component{
 
         return (
             <div>
-                { loading ? <span className="loading">Saving New Recipe...</span> :
+                { loading ? <span className="loading">Loading...</span> :
                     <div className="form-add card container">
                         <h2 className="card-title">Add Recipe</h2>
                         <form onSubmit={this.handleSubmit}>

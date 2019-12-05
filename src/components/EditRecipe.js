@@ -23,6 +23,7 @@ class EditRecipe extends Component{
         .then(recipeInfo => {
             if(recipeInfo.error === true) {
                 this.setState({notFound: true, loading: false})
+                console.log(recipeInfo.msg)
             }
             else {
                 this.setState({
@@ -118,21 +119,26 @@ class EditRecipe extends Component{
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        this.setState({loading: true})
-        const { title, description, dish, ingredients, procedures } = this.state;
-        
-        const recipeUpdate = {
-            title, description, dish, ingredients, procedures,
-            editDate: moment().format('LLL')
+        try {
+            this.setState({loading: true})
+            const { title, description, dish, ingredients, procedures } = this.state;
+            
+            const recipeUpdate = {
+                title, description, dish, ingredients, procedures,
+                editDate: moment().format('LLL')
+            }
+            const response = await fetch('http://localhost:5000/recipes/update/'+this.props.match.params.id, {
+                method:  'post',
+                body:JSON.stringify(recipeUpdate), 
+                headers: {'Content-Type': 'application/json'}}
+            );
+            const json = await response.json();    
+            console.log(json.msg);
+            this.props.history.push(`/recipes/view/${this.props.match.params.id}`);
+        }catch {
+            alert('Edit Failed')
+            this.setState({loading: false})
         }
-        const response = await fetch('http://localhost:5000/recipes/update/'+this.props.match.params.id, {
-            method:  'post',
-            body:JSON.stringify(recipeUpdate), 
-            headers: {'Content-Type': 'application/json'}}
-        );
-        const json = await response.json();    
-        console.log(json.msg);
-        this.props.history.push(`/recipes/view/${this.props.match.params.id}`);
     }
 
     handleChange = (e) => {

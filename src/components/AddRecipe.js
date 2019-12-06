@@ -9,10 +9,13 @@ class AddRecipe extends Component{
         ingredients: [''],
         procedures: [''],
         dish: 'not-specified',
-        loading: false
+        loading: false,
+        popNotify: false,
+        success: false,
+        msg: ''
     }
 
-    handleSubmit = async (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.setState({loading: true})
         const recipe = {
@@ -25,31 +28,58 @@ class AddRecipe extends Component{
             editDate: moment().format('LLL'),
             recipeId: Date.now()
         }
-        
-        try {
-            const response = await fetch('http://localhost:5000/recipes/add', {
-                method: 'post',
-                body:JSON.stringify(recipe), 
-                headers: {'Content-Type': 'application/json'}}
-        );
-            const json = await response.json();
-            const clearInput = await (  
-                this.setState({title:'', description:'', ingredients:[''], procedures:[''], dish:'all', loading: false})
-            );
-            console.log(json.msg);
-        }
-        catch{
-            this.setState({loading: false})
-            alert("Saving Failed!")
-        }
+        fetch('http://localhost:5000/recipes/add', {
+            method: 'post',
+            body:JSON.stringify(recipe), 
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error !== true) {
+                this.setState({
+                    title:'', 
+                    description:'', 
+                    ingredients:[''], 
+                    procedures:[''], 
+                    dish:'all', 
+                    loading: false, 
+                    popNotify: true, 
+                    success: true, 
+                    msg: data.msg
+                })
+            }
+            else {
+                this.setState({
+                    loading: false, 
+                    popNotify: true, 
+                    msg: data.msg
+                })
+            }
+        })
+        .catch((err) => {
+            this.setState({
+                loading: false, 
+                popNotify: true, 
+                msg: 'Saving Failed!'
+            })
+        })        
+    }
+
+    closeButton = () => {
+        const currentState = this.state.popNotify
+        this.setState({popNotify: !currentState})
     }
 
     render() { 
 
-        const { title, description, dish, ingredients, procedures, loading } = this.state
+        const { title, description, dish, ingredients, procedures, loading, popNotify, success, msg } = this.state
 
         return (
             <div>
+                <div className={`alert-wrapper ${popNotify? `on`: `off`} ${success? `green`: `red`} `}>
+                    {msg}
+                    <button onClick={this.closeButton}>x</button>
+                </div>
                 { loading ? <span className="loading">Loading...</span> :
                     <div className="form-add card container">
                         <h2 className="card-title">Add Recipe</h2>
@@ -113,7 +143,7 @@ class AddRecipe extends Component{
     }
 
     handleChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [e.target.name]: e.target.value, popNotify: false });
     }
 
     onOption = (e) => {

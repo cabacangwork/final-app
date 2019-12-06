@@ -25,18 +25,18 @@ class AddRecipe extends Component{
             editDate: moment().format('LLL'),
             recipeId: Date.now()
         }
+        
         try {
             const response = await fetch('http://localhost:5000/recipes/add', {
                 method: 'post',
                 body:JSON.stringify(recipe), 
                 headers: {'Content-Type': 'application/json'}}
-            );
+        );
             const json = await response.json();
             const clearInput = await (  
-                this.setState({title:'', description:'', ingredients:[''], procedures:[''], dish:'all'})
+                this.setState({title:'', description:'', ingredients:[''], procedures:[''], dish:'all', loading: false})
             );
             console.log(json.msg);
-            this.props.history.push('/recipes/list');
         }
         catch{
             this.setState({loading: false})

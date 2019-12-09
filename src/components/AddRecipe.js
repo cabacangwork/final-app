@@ -28,14 +28,14 @@ class AddRecipe extends Component{
             editDate: moment().format('LLL'),
             recipeId: Date.now()
         }
-        fetch('http://localhost:5000/recipes/add', {
+        fetch('http://localhost:3000/recipes/add', {
             method: 'post',
             body:JSON.stringify(recipe), 
             headers: {'Content-Type': 'application/json'}
         })
         .then(response => response.json())
         .then(data => {
-            if (data.error !== true) {
+            if (data.succes === true) {
                 this.setState({
                     title:'', 
                     description:'', 

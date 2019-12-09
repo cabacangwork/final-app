@@ -18,25 +18,28 @@ class EditRecipe extends Component{
     abortController = new AbortController;
 
     componentDidMount() {
-        fetch('http://localhost:5000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
+        fetch('http://localhost:3000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
         .then(res => res.json())
         .then(recipeInfo => {
-            if(recipeInfo.error === true) {
-                this.setState({notFound: true, loading: false})
-                console.log(recipeInfo.msg)
-            }
-            else {
+            if(recipeInfo.success === true) {
                 this.setState({
-                    title: recipeInfo.title, 
-                    description: recipeInfo.description, 
-                    ingredients: recipeInfo.ingredients,
-                    procedures: recipeInfo.procedures,
-                    dish: recipeInfo.dish,
+                    title: recipeInfo.recipe.title, 
+                    description: recipeInfo.recipe.description, 
+                    ingredients: recipeInfo.recipe.ingredients,
+                    procedures: recipeInfo.recipe.procedures,
+                    dish: recipeInfo.recipe.dish,
                     loading: false
                 })
             }
+            else {
+                this.setState({notFound: true, loading: false})
+                console.log(recipeInfo.msg)
+            }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            this.setState({notFound: true, loading: false})
+            console.log('Recipe Not Found')
+        });
     }
 
     componentWillUnmount() {
@@ -127,7 +130,7 @@ class EditRecipe extends Component{
                 title, description, dish, ingredients, procedures,
                 editDate: moment().format('LLL')
             }
-            const response = await fetch('http://localhost:5000/recipes/update/'+this.props.match.params.id, {
+            const response = await fetch('http://localhost:3000/recipes/update/'+this.props.match.params.id, {
                 method:  'post',
                 body:JSON.stringify(recipeUpdate), 
                 headers: {'Content-Type': 'application/json'}}

@@ -13,15 +13,15 @@ class RecipeDetails extends Component {
     abortController = new AbortController;
 
     componentDidMount() {
-        fetch('http://localhost:5000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
+        fetch('http://localhost:3000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
         .then(res => res.json())
         .then(recipeInfo => {
-            if(recipeInfo.error === true) {
-                this.setState({notFound: true, loading: false})
-                console.log(recipeInfo.msg)
+            if(recipeInfo.success === true) {
+                this.setState({recipeInfo: recipeInfo.recipe, loading: false})
             }
             else {
-                this.setState({recipeInfo, loading: false})
+                this.setState({notFound: true, loading: false})
+                console.log(recipeInfo.msg)
             }
         })
         .catch(err => {
@@ -91,7 +91,7 @@ class RecipeDetails extends Component {
     onDelete = async (id) => {
         this.setState({loading: true})
         try {
-            const response = await fetch('http://localhost:5000/recipes/'+id, {
+            const response = await fetch('http://localhost:3000/recipes/'+id, {
                 method: 'delete'
             });
             const json = await response.json();

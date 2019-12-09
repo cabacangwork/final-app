@@ -36,7 +36,7 @@ class EditRecipe extends Component{
                 console.log(recipeInfo.msg)
             }
         })
-        .catch(err => {
+        .catch(() => {
             this.setState({notFound: true, loading: false})
             console.log('Recipe Not Found')
         });

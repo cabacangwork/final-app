@@ -15,7 +15,7 @@ class RecipeList extends Component {
         fetch("http://localhost:3000/recipes/recipe-list", { signal: this.abortController.signal })
         .then(res => res.json())
         .then(list => this.setState({ list, load: false }))
-        .catch(err => console.log('Failed to fetch!'));
+        .catch(() => console.log('Failed to fetch!'));
     }
 
     componentWillUnmount() {
@@ -69,7 +69,7 @@ class RecipeList extends Component {
             .then(list => {
                 this.setState({ list, load: false });
             })
-            .catch(err => console.log('Failed to filter!'));
+            .catch(() => console.log('Failed to filter!'));
     }
 }
 

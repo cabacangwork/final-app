@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { UserContext } from '../context.js/UserContext';
 
 class AddRecipe extends Component{
+
+    static contextType = UserContext;
 
     state = {
         title: '',
@@ -13,7 +16,7 @@ class AddRecipe extends Component{
         popNotify: false,
         success: false,
         msg: ''
-    }
+    } 
 
     handleSubmit = (e) => {
         e.preventDefault();

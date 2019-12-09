@@ -312,3 +312,19 @@ span.loading {
         background-color: #0080008c;
     }
 }
+
+.login-form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    padding-top: 10px;
+    background-color: #107dacad;
+    border-radius: 7px;
+    h2 {
+        text-align: center;
+    } 
+    button.btn.btn-primary {
+        margin: 0 auto;
+        display: flex;
+    }
+}

@@ -17,7 +17,7 @@ class AddRecipe extends Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({loading: true})
+        this.setState({loading: true, popNotify: true})
         const recipe = {
             title: this.state.title,
             description: this.state.description,
@@ -35,7 +35,7 @@ class AddRecipe extends Component{
         })
         .then(response => response.json())
         .then(data => {
-            if (data.succes === true) {
+            if (data.success === true) {
                 this.setState({
                     title:'', 
                     description:'', 
@@ -43,7 +43,6 @@ class AddRecipe extends Component{
                     procedures:[''], 
                     dish:'all', 
                     loading: false, 
-                    popNotify: true, 
                     success: true, 
                     msg: data.msg
                 })
@@ -51,7 +50,7 @@ class AddRecipe extends Component{
             else {
                 this.setState({
                     loading: false, 
-                    popNotify: true, 
+                    success: false, 
                     msg: data.msg
                 })
             }
@@ -59,7 +58,6 @@ class AddRecipe extends Component{
         .catch((err) => {
             this.setState({
                 loading: false, 
-                popNotify: true, 
                 msg: 'Saving Failed!'
             })
         })        

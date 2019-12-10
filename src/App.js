@@ -12,6 +12,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import GifGenerator from './components/GifGenerator';
 
 class App extends Component{
   render() { 
@@ -25,6 +26,7 @@ class App extends Component{
                   <Route exact path="/recipes/list" component={RecipeList}/>
                   <Route exact path="/recipes/view/:id" component={RecipeDetails}/>
                   <Route exact path="/recipes/update/:id" component={EditRecipe}/>
+                  <Route exact path="/tester" component={GifGenerator}/>
                   <Route component={PageNotFound} />
               </Switch>
             </Router>

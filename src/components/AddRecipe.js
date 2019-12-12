@@ -35,35 +35,10 @@ class AddRecipe extends Component{
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success === true) {
-                this.setState({
-                    title:'', 
-                    description:'', 
-                    ingredients:[''], 
-                    procedures:[''], 
-                    dish:'all', 
-                    loading: false, 
-                    success: true, 
-                    msg: data.msg,
-                    popNotify: true
-                })
-            }
-            else {
-                this.setState({
-                    loading: false, 
-                    success: false, 
-                    msg: data.msg,
-                    popNotify: true
-                })
-            }
+            this.clearInput(data);
         })
         .catch(() => this.setState({ loading: false, popNotify: true, msg: 'Saving Failed!'})
         )        
-    }
-
-    closeButton = () => {
-        const currentState = this.state.popNotify
-        this.setState({popNotify: !currentState})
     }
 
     render() { 
@@ -136,6 +111,35 @@ class AddRecipe extends Component{
             </div>
         )
 
+    }
+
+    closeButton = () => {
+        const currentState = this.state.popNotify
+        this.setState({popNotify: !currentState})
+    }
+
+    clearInput = (data) => {
+        if (data.success === true) {
+            this.setState({
+                title:'', 
+                description:'', 
+                ingredients:[''], 
+                procedures:[''], 
+                dish:'all', 
+                loading: false, 
+                success: true, 
+                msg: data.msg,
+                popNotify: true
+            })
+        }
+        else {
+            this.setState({
+                loading: false, 
+                success: false, 
+                msg: data.msg,
+                popNotify: true
+            })
+        }
     }
 
     handleChange = (e) => {

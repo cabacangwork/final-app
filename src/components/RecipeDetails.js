@@ -7,28 +7,24 @@ class RecipeDetails extends Component {
     state = {
         recipeInfo: '',
         loading: true,
-        notFound: false
+        notFound: false,
+        erroMsg: ''
     }
 
     abortController = new AbortController;
 
     componentDidMount() {
         fetch('http://localhost:3000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
-        .then(res => res.json())
-        .then(recipeInfo => {
-            if(recipeInfo.success === true) {
-                this.setState({recipeInfo: recipeInfo.recipe, loading: false})
-            }
-            else {
-                this.setState({notFound: true, loading: false})
-                console.log(recipeInfo.msg)
-            }
+        .then(res => {
+            if (res.statusText === 'OK') return res.json();
         })
+        .then(recipeInfo => this.setState({recipeInfo: recipeInfo.recipe, loading: false}))
         .catch(() => {
             this.setState({notFound: true, loading: false})
             console.log('Recipe Not Found')
         });
     }
+
 
     // Abort Fetch Request in leaving page
     componentWillUnmount() {
@@ -97,7 +93,8 @@ class RecipeDetails extends Component {
             const json = await response.json();
             console.log(json.msg)
             this.props.history.push('/recipes/list');
-        }catch {
+        }
+        catch {
             this.setState({loading: false})
             alert('Delete Unsuccessful!')
         } 

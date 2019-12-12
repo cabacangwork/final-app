@@ -19,22 +19,18 @@ class EditRecipe extends Component{
 
     componentDidMount() {
         fetch('http://localhost:3000/recipes/view/'+this.props.match.params.id, { signal: this.abortController.signal })
-        .then(res => res.json())
+        .then(res => {
+            if (res.statusText === 'OK') return res.json();
+        })
         .then(recipeInfo => {
-            if(recipeInfo.success === true) {
-                this.setState({
-                    title: recipeInfo.recipe.title, 
-                    description: recipeInfo.recipe.description, 
-                    ingredients: recipeInfo.recipe.ingredients,
-                    procedures: recipeInfo.recipe.procedures,
-                    dish: recipeInfo.recipe.dish,
-                    loading: false
-                })
-            }
-            else {
-                this.setState({notFound: true, loading: false})
-                console.log(recipeInfo.msg)
-            }
+            this.setState({
+                title: recipeInfo.recipe.title, 
+                description: recipeInfo.recipe.description, 
+                ingredients: recipeInfo.recipe.ingredients,
+                procedures: recipeInfo.recipe.procedures,
+                dish: recipeInfo.recipe.dish,
+                loading: false
+            })
         })
         .catch(() => {
             this.setState({notFound: true, loading: false})

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import PageNotFound from './PageNotFound';
+import Modal from './Modal';
 
 class RecipeDetails extends Component {
 
@@ -8,7 +9,8 @@ class RecipeDetails extends Component {
         recipeInfo: '',
         loading: true,
         notFound: false,
-        erroMsg: ''
+        msg: '',
+        modal: false
     }
 
     abortController = new AbortController;
@@ -32,12 +34,12 @@ class RecipeDetails extends Component {
     }
 
     render() {
-        const { loading, recipeInfo, notFound } = this.state
+        const { loading, recipeInfo, notFound, msg, modal } = this.state;
         return (
             <div> 
                 <div className="recipe container">
                     {loading? <span className="loading">Loading...</span> : 
-                        (notFound? <PageNotFound/>:
+                        ((notFound || !(!!recipeInfo))? <PageNotFound/>:
                             <div key={recipeInfo._id} className="details">
                                 <h2>{recipeInfo.title}</h2>
                                 <p>{recipeInfo.description}</p>
@@ -80,6 +82,7 @@ class RecipeDetails extends Component {
                         )
                     }
                 </div>
+                {modal && <Modal msg={msg} closeModal={this.closeModal}/>}
             </div>
         )
     }
@@ -92,12 +95,18 @@ class RecipeDetails extends Component {
             });
             const json = await response.json();
             console.log(json.msg)
-            this.props.history.push('/recipes/list');
+            // this.props.history.push('/recipes/list');
+            await this.setState({loading:false, notFound: true, msg:json.msg, modal:true});
         }
         catch {
             this.setState({loading: false})
             alert('Delete Unsuccessful!')
         } 
+    }
+
+    closeModal = async() => {
+        this.setState({modal: false})
+        await this.props.history.push('/recipes/list');
     }
 
 }

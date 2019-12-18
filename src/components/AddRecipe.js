@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import RecipeForm from './RecipeForm';
 
 class AddRecipe extends Component{
 
@@ -44,71 +45,22 @@ class AddRecipe extends Component{
     render() { 
         
         const { title, description, dish, ingredients, procedures, loading, popNotify, success, msg } = this.state
+        const formState = { title, description, dish, ingredients, procedures, loading, popNotify, success, msg };
+
+        const { handleSubmit, handleChange, onOption, onChangeIngredient, removeIngredient, addIngredient, onChangeProcedure, removeProcedure, addProcedure } = this;
+        const events = { handleSubmit, handleChange, onOption, onChangeIngredient, removeIngredient, addIngredient, onChangeProcedure, removeProcedure, addProcedure };
 
         return (
-            <div>
-                <div className={`alert-wrapper ${popNotify? `on`: `off`} ${success? `green`: `red`} `}>
-                    {msg}
-                    <button onClick={this.closeButton}>x</button>
-                </div>
-                { loading ? <span className="loading">Loading...</span> :
-                    <div className="form-add card container">
-                        <h2 className="card-title">Add Recipe</h2>
-                        <form onSubmit={this.handleSubmit}>
-                            <div className="form-group">
-                                <label>Title</label><br/>
-                                <input className="form-control" type="text" name="title" value={title} onChange={this.handleChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Description</label><br/>
-                                <textarea className="form-control" rows="3" type="text" name="description" value={description} onChange={this.handleChange} required />
-                            </div>
-                            <div className="form-group">
-                                <label>Dish Type</label>
-                                <select className="form-control" id="dishType" value={dish} onChange={(e) => this.onOption(e)}>
-                                    <option value="not-specified">Not Specified</option>
-                                    <option value="chicken">Chicken</option>
-                                    <option value="beef">Beef</option>
-                                    <option value="pork">Pork</option>
-                                    <option value="seafood">Seafood</option>
-                                    <option value="vegetable">Vegetable</option>
-                                    <option value="pasta">Pasta</option>
-                                    <option value="desert">Desert</option>
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label>Ingredients:</label>
-                                {ingredients.map((ingredient, index) => 
-                                    <div key={index} className="add-tab">
-                                        <div className="add-input">
-                                            <input className="form-control" value={ingredient} onChange={(e) => this.onChangeIngredient(e, index)} required/>
-                                        </div>
-                                        <div>
-                                            <button className="btn btn-remove" onClick={(e) => this.removeIngredient(e, index)}>Remove</button>
-                                        </div>
-                                    </div>
-                                )}
-                                <br/><button onClick={this.addIngredient} className="btn btn-secondary btn-add">Add Ingredient</button>
-                            </div>
-                            <div className="form-group">
-                                <label>Procedure:</label>
-                                {procedures.map((procedure, index) => 
-                                    <div key={index} className="add-tab">
-                                        <div className="add-input">
-                                            <textarea className="form-control" rows="2" type="text" value={procedure} onChange={(e) => this.onChangeProcedure(e, index)} required/>
-                                        </div>
-                                        <div>
-                                            <button className="btn btn-remove" onClick={(e) => this.removeProcedure(e, index)}>Remove</button>
-                                        </div>
-                                    </div>
-                                )}
-                                <br/><button onClick={this.addProcedure} className="btn btn-secondary btn-add">Add Procedure</button>
-                            </div>
-                            <button type="submit" className="btn btn-primary btn-lg">Submit</button>
-                        </form>
-                    </div>
-                }
-            </div>
+            <div><RecipeForm events={events} formState={formState}/></div>
+            // <div>
+            //     <div className={`alert-wrapper ${popNotify? `on`: `off`} ${success? `green`: `red`} `}>
+            //         {msg}
+            //         <button onClick={this.closeButton}>x</button>
+            //     </div>
+            //     { loading ? <span className="loading">Loading...</span> :
+            //         <RecipeForm/>
+            //     }
+            // </div>
         )
 
     }

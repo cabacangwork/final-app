@@ -51,16 +51,15 @@ class AddRecipe extends Component{
         const events = { handleSubmit, handleChange, onOption, onChangeIngredient, removeIngredient, addIngredient, onChangeProcedure, removeProcedure, addProcedure };
 
         return (
-            <div><RecipeForm events={events} formState={formState}/></div>
-            // <div>
-            //     <div className={`alert-wrapper ${popNotify? `on`: `off`} ${success? `green`: `red`} `}>
-            //         {msg}
-            //         <button onClick={this.closeButton}>x</button>
-            //     </div>
-            //     { loading ? <span className="loading">Loading...</span> :
-            //         <RecipeForm/>
-            //     }
-            // </div>
+            <div>
+                <div className={`alert-wrapper ${popNotify? `on`: `off`} ${success? `green`: `red`} `}>
+                    {msg}
+                    <button onClick={this.closeButton}>x</button>
+                </div>
+                { loading ? <span className="loading">Loading...</span> :
+                    <RecipeForm events={events} formState={formState}/>
+                }
+            </div>
         )
 
     }

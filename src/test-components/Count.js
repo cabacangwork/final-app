@@ -7,12 +7,14 @@ class Count extends PureComponent {
     }
 
     componentDidMount() {
-        const completed = this.props.tasks.filter(item => item.completed===true);
-        const active = this.props.tasks.filter(item => item.completed!==true);
-        this.setState({completed: completed.length, active: active.length});
+        this.setScore();
     }
 
     componentDidUpdate() {
+        this.setScore();
+    }
+
+    setScore = () => {
         const completed = this.props.tasks.filter(item => item.completed===true);
         const active = this.props.tasks.filter(item => item.completed!==true);
         this.setState({completed: completed.length, active: active.length});
